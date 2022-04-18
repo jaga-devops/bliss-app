@@ -1,0 +1,48 @@
+---
+# tasks file for apache-install
+- name: Update all packages to their latest version
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+- name: Installing the java version8
+  apt:
+    name: '{{ JDK_version  }}'
+- name: Add tomcat group
+  group:
+    name: tomcat
+- name: Add the user 'tomcat' with a bash shell, appending the group 'tomcat' to the user's groups
+  user:
+    name: tomcat
+    shell: /bin/bash
+    groups: tomcat
+- name: Download TOMCAT
+  get_url:
+    url: "{{ tomcat_archive_url }}"
+    dest: "{{ tomcat_archive_dest }}"
+- name: Create a directory if it does not exist
+  file:
+    path: /opt/tomcat
+    state: directory
+- name: EXTRACT TOMCAT ARCHIVE FILE INTO /opt/tomcat
+  unarchive:
+    src: "{{ tomcat_archive_dest }}/{{ tar_file_of_tomcat }}"
+    dest: /opt/tomcat
+- name: Change the permission of the file
+  file:
+    path: /opt/tomcat
+    recurse: yes
+    owner: tomcat
+    group: tomcat
+- name: Touch the same file, but add/remove some permissions
+  file:
+    path: /opt/tomcat/apache-tomcat-8.5.78/conf
+    state: touch
+    mode: g+r
+- name: Touch the same file, but add/remove some permissions
+  file:
+    path: /opt/tomcat/apache-tomcat-8.5.78/conf
+    state: touch
+    mode: g+x
+- name: Install software
+  shell: "/opt/tomcat/apache-tomcat-8.5.78/bin/./startup.sh"
+  become_user: tomcat

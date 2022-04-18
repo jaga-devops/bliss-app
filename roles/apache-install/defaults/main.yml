@@ -1,0 +1,4 @@
+---
+# defaults file for apache-install
+install_package: apache2
+stable_repository_of_apache: ppa:ondrej/apache2

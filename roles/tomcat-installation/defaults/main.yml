@@ -1,0 +1,6 @@
+---
+# defaults file for elasticsearch
+JDK_version: openjdk-8-jdk
+tomcat_archive_url: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.78/bin/apache-tomcat-8.5.78.tar.gz
+tomcat_archive_dest: /home/ubuntu
+tar_file_of_tomcat: apache-tomcat-8.5.78.tar.gz

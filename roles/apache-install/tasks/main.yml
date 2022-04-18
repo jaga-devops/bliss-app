@@ -1,0 +1,33 @@
+---
+# tasks file for apache-install
+- name: Update all packages to their latest version
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+- name: Install apache httpd  (state=present is optional)
+  apt:
+    name: '{{ install_package  }}'
+    state: present
+- name: UPGRADING PACKAGES
+  apt:
+    upgrade: dist
+    update_cache: yes
+- name: Add apache stable repository from PPA
+  apt_repository:
+    repo: '{{ stable_repository_of_apache  }}'
+- name: UPGRADING PACKAGES
+  apt:
+    upgrade: dist
+    update_cache: yes
+- name: Enable the Apache2 module wsgi proxy
+  apache2_module:
+    state: present
+    name: proxy
+- name: Enable the Apache2 module rewrite
+  apache2_module:
+    state: present
+    name: rewrite
+- name: Enable the Apache2 module ssl
+  apache2_module:
+    state: present
+    name: ssl
